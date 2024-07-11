@@ -6,7 +6,7 @@ import 'package:news_app_clean_architecture/features/daily_news/presentation/blo
 
 class RemoteArticlesBloc extends Bloc<RemoteArticlesEvent,RemoteArticlesState> {
   
-  final GetAarticleUseCase _getArticleUseCase;
+  final GetArticleUseCase _getArticleUseCase;
   
   RemoteArticlesBloc(this._getArticleUseCase) : super(const RemoteArticlesLoading()){
     on <GetArticles> (onGetArticles);

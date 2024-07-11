@@ -1,58 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:news_app_clean_architecture/injection_container.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app_clean_architecture/config/routes/routes.dart';
+import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/article/remote/remote_article_event.dart';
+import 'package:news_app_clean_architecture/features/daily_news/presentation/pages/home/daily_news.dart';
+import 'config/theme/app_themes.dart';
+import 'features/daily_news/presentation/bloc/article/remote/remote_article_bloc.dart';
+import 'injection_container.dart';
 
-Future <void> main() async{
-await  initializeDependencies();
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initializeDependencies();
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({key});
+  const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return BlocProvider<RemoteArticlesBloc>(
+      create: (context) => sl()..add(const GetArticles()),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: theme(),
+        onGenerateRoute: AppRoutes.onGenerateRoutes,
+        home: const DailyNews()
       ),
-      home: MyHomePage(),
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
-  }
-
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-}
